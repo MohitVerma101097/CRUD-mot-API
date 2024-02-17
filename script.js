@@ -33,7 +33,8 @@ const showAllStaff = () => {
         //Slett
 
         const deleteBtn = document.createElement("button")
-
+        deleteBtn.innerHTML = `delete ${staffMemeber.name}`
+        deleteBtn.style.backgroundColor = 'red'
         staffCard.innerHTML = `<img src="${staffMemeber.image}" style="width: 300px"/> <h3>${staffMemeber.name}</h3> `; // corrected the syntax for the <img> tag
         staffContainer.appendChild(staffCard); // corrected to appendChild
         console.log(staffMemeber.name, index);
