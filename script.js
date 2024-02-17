@@ -23,9 +23,7 @@ const fetchAndShowStaff = async () => {
         console.log('Opsie!');
     }
 }
-
 fetchAndShowStaff()
-
 const showAllStaff = () => {
     staffContainer.innerHTML = ''
     hogwartsStaff.forEach((staffMemeber, index) => {
@@ -54,3 +52,19 @@ const deleteFunction = (index) => {
 }
 console.log(fetchStaff())
 
+// create
+
+const addStaffMember = () => {
+if(newStaffTxt.value){
+    hogwartsStaff.unshift({
+        name: newStaffTxt.value,
+        image: ''
+    })
+    showAllStaff()
+    newStaffTxt.value = ''
+} else{
+    alert('skriv inn lærer')
+}
+}
+
+addBtn.addEventListener("click", addStaffMember)
