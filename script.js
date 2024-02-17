@@ -20,26 +20,37 @@ const fetchAndShowStaff = async () => {
         console.log('i fetch og show staff funksjonen', hogwartsStaff)
         showAllStaff()
     } catch (error) {
-        console.error('Opsie!');
+        console.log('Opsie!');
     }
 }
 
 fetchAndShowStaff()
 
 const showAllStaff = () => {
-    hogwartsStaff.forEach((staffMemeber, index)=>{
+    staffContainer.innerHTML = ''
+    hogwartsStaff.forEach((staffMemeber, index) => {
         const staffCard = document.createElement('div');
 
-        //Slett
-
-        const deleteBtn = document.createElement("button")
-        deleteBtn.innerHTML = `delete ${staffMemeber.name}`
-        deleteBtn.style.backgroundColor = 'red'
-        staffCard.innerHTML = `<img src="${staffMemeber.image}" style="width: 300px"/> <h3>${staffMemeber.name}</h3> `; // corrected the syntax for the <img> tag
-        staffContainer.appendChild(staffCard); // corrected to appendChild
-        console.log(staffMemeber.name, index);
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerHTML = `Delete ${staffMemeber.name}`;
+        deleteBtn.style.backgroundColor = 'red';
+        deleteBtn.addEventListener("click", ()=> {
+            deleteFunction(index)
+        });
+        staffCard.innerHTML = `<img src="${staffMemeber.image}" style="width: 300px"/> <h3>${staffMemeber.name}</h3>`;
+        staffCard.append(deleteBtn)
+        staffContainer.append(staffCard)
+        
+        console.log(staffMemeber.name);
     });
 }
 
+
+
+const deleteFunction = (index) => {
+    hogwartsStaff.splice(index,1);
+ 
+    showAllStaff()
+}
 console.log(fetchStaff())
 
