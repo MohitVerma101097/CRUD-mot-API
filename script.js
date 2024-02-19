@@ -43,7 +43,7 @@ const showAllStaff = () => {
         const nameInput = document.createElement("input")
         nameInput.type = "text"
         nameInput.placeholder = "Skriv inn navn på ansatt..."
-        nameInput.id = `nameInput ${index}`
+        nameInput.id = `nameInput-${index}`
         const editBtn = document.createElement("button");
         editBtn.style.backgroundColor = 'yellow'
         editBtn.innerHTML = "rediger ansatt"
@@ -88,7 +88,7 @@ addBtn.addEventListener("click", addStaffMember)
 //Edit
 
 const editStaffMember = (index) => {
-    const newStaffName = document.querySelector(`nameInput-${index}`).value
+    const newStaffName = document.querySelector(`#nameInput-${index}`).value
     hogwartsStaff[index].name = newStaffName;
     
     showAllStaff()
