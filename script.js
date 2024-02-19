@@ -5,10 +5,35 @@ addBtn.style.backgroundColor = "green"
 
 let hogwartsStaff;
 
+const fetchUnsplash = async () => {
+    try {
+        const request = await fetch('https://api.unsplash.com/photos/?client_id=IrQSF0dxpIpQ9EvcpBcULAsu3vnxcw9RHnQn4te0blQ')
+        const result = await request.json()
+        return result
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+fetchUnsplash()
+
+const getImage = async () => {
+    try {
+        const unsplashImage = await fetchUnsplash();
+        console.log(unsplashImage)
+        console.log(unsplashImage.urls.regular);
+    } catch (error) {
+        console.error('Error fetching image:', error);
+    }
+}
+
+getImage();
+
+
 const fetchStaff = async () =>{
     try {
-        const hogwartsStaffRequest = (await fetch('https://hp-api.onrender.com/api/characters/staff'))
-       const result = await hogwartsStaffRequest.json()
+        const hogwartsStaffRequest = await fetch('https://hp-api.onrender.com/api/characters/staff')
+        const result = await hogwartsStaffRequest.json()
         return result 
     } catch (error) {
         console.log(error)   
@@ -18,55 +43,50 @@ const fetchStaff = async () =>{
 const fetchAndShowStaff = async () => {
     try {
         hogwartsStaff = await fetchStaff()
-        console.log('i fetch og show staff funksjonen', hogwartsStaff)
+        //console.log('i fetch og show staff funksjonen', hogwartsStaff)
         showAllStaff()
     } catch (error) {
         console.log('Opsie!');
     }
 }
+
 fetchAndShowStaff()
+
 const showAllStaff = () => {
-    staffContainer.innerHTML = ''
-    hogwartsStaff.forEach((staffMemeber, index) => {
+    staffContainer.innerHTML = ''; // Clear existing content
+    hogwartsStaff.forEach((staffMember, index) => {
+        // Create card for each staff member
         const staffCard = document.createElement('div');
-
-        //Slette
-
-        const deleteBtn = document.createElement("button");
-        deleteBtn.innerHTML = `Delete ${staffMemeber.name}`;
-        deleteBtn.style.backgroundColor = 'red';
-        deleteBtn.addEventListener("click", ()=> {
-            deleteFunction(index)
-        });
-
-        //Edit
-        const nameInput = document.createElement("input")
-        nameInput.type = "text"
-        nameInput.placeholder = "Skriv inn navn på ansatt..."
-        nameInput.id = `nameInput-${index}`
-        const editBtn = document.createElement("button");
-        editBtn.style.backgroundColor = 'yellow'
-        editBtn.innerHTML = "rediger ansatt"
-        editBtn.addEventListener("click", ()=>{
-            editStaffMember(index)
-        })
-        staffCard.innerHTML = `<img src="${staffMemeber.image}" style="width: 300px"/> <h3>${staffMemeber.name}</h3>`;
-        staffCard.append(deleteBtn, nameInput, editBtn)
-        staffContainer.append(staffCard)
+        staffCard.innerHTML = `<img src="${staffMember.image}" style="width: 300px"/> <h3>${staffMember.name}</h3>`;
+        staffContainer.append(staffCard);
         
-        console.log(staffMemeber.name);
+        // Create delete button
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerHTML = `Delete ${staffMember.name}`;
+        deleteBtn.style.backgroundColor = 'red';
+        deleteBtn.addEventListener("click", () => { deleteFunction(index); });
+        staffCard.appendChild(deleteBtn); // Append delete button to staff card
+        
+        // Create edit button
+        const editBtn = document.createElement("button");
+        editBtn.style.backgroundColor = 'yellow';
+        editBtn.innerHTML = "Edit Staff";
+        editBtn.addEventListener("click", () => { editStaffMember(index); });
+        staffCard.appendChild(editBtn); // Append edit button to staff card
     });
-}
+};
 
+// delete staff
 
 const deleteFunction = (index) => {
     hogwartsStaff.splice(index,1);
  
     showAllStaff()
 }
-console.log(fetchStaff())
 
-// create
+//console.log(fetchStaff())
+
+// create staff
 
 const addStaffMember = () => {
     
@@ -85,7 +105,7 @@ if(newStaffTxt.value){
 
 addBtn.addEventListener("click", addStaffMember)
 
-//Edit
+// Edit staff
 
 const editStaffMember = (index) => {
     const newStaffName = document.querySelector(`#nameInput-${index}`).value
